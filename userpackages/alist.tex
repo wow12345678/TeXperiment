@@ -43,6 +43,30 @@
 \input load
 \load documentation
 
+\def\verbatim{%
+\begingroup
+\def\do##1{\catcode`##1=12 }%
+\dospecials
+\otherspecial\ {\ }%
+\otherspecial\-{-\kern0pt }%
+\otherspecial\`{\lq\kern0pt }%
+\otherspecial\'{\rq\kern0pt }%
+\otherspecial\^^M{\endgraf\ifblankline\vskip\baselineskip\fi\blanklinetrue}%
+\parindent0pt\medskip
+\everypar{\blanklinefalse}
+\tt\verbatimaux
+}
+\newif\ifblankline
+\begingroup\endlinechar=-1
+\catcode`\|=0 %
+\catcode`\\=12 %
+|gdef|verbatimaux#1\endverbatim#2{#1|endgroup|par|medskip}%
+|endgroup%
+\def\otherspecial#1#2{%
+	\begingroup\lccode`~=`#1\relax
+	\lowercase{\endgroup\def~}{#2}%
+	\catcode`#1=\active
+}
 %-documentation-%
 \documentation{alist}{This package provides the control sequence {\cs\\list\#1\{\\item\#\#1\}} which can be used for typesetting lists.
 \list{
@@ -64,4 +88,19 @@
   \item{One of the problems with spotting what is different about my previous example is, that {\cs\\item}'s are separated by the same {\cs\\par} that is inserted before a list. While this can be changed by altering {\cs\\newlist} or {\cs\\itembreak}, it is necessary for {\cs\\itembreak} to contain {\cs\\par} at least indirectly.}
   \item{Now that we have reached double digits, I can stop wasting your time with bad examples, for you can now observe how {\cs\\list} automatically takes care of providing the appropriate space for bullets even if they are of different lengths.}
   {\def\lbullet{$\circ\quad$}
-  \item{Just to remove all doubt.}}}}
+  \item{Just to remove all doubt.}}}
+
+
+\verbatim
+void dfs(int p){%
+		if(o[p]) return;%
+		o[p]=1;%
+		c[p] = t++;%
+		for(int i=0; i<s[p].size(); ++i){%
+				dfs(s[p][i]);%
+			}%
+	}%
+
+-- --- `` '' `? `!% 
+\endverbatim
+  }
